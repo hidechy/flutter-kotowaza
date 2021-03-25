@@ -18,6 +18,8 @@ dependencies:
   intl: ^0.16.1
   flutter_slidable: "^0.5.4"
   font_awesome_flutter: ^8.8.1
+  flutter_launcher_icons: ^0.7.5
+  flutter_native_splash: ^0.1.9
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +28,18 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - assets/images/
+
+flutter_native_splash:
+  image: "assets/images/ic_launcher.png"
+  color: "2e2e2e"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/ic_launcher.png"
+
+adaptive_icon_background: "#212121"
+adaptive_icon_foreground: "assets/images/ic_launcher.png"
