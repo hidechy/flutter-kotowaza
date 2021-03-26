@@ -5,6 +5,8 @@ import 'package:http/http.dart';
 
 import 'package:toast/toast.dart';
 
+import 'test_screen.dart';
+
 class WordListScreen extends StatefulWidget {
   final String head;
   WordListScreen({@required this.head});
@@ -146,7 +148,19 @@ class _WordListScreenState extends State<WordListScreen> {
         ),
         //-------------------------//これを消すと「←」が出てくる（消さない）
 
-        actions: <Widget>[],
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.confirmation_number),
+            tooltip: 'テスト',
+            onPressed: () => _goTestScreen(context: context),
+            color: Colors.greenAccent,
+          ),
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () => _goWordListScreen(head: widget.head),
+            color: Colors.greenAccent,
+          ),
+        ],
       ),
       body: Row(
         children: <Widget>[
@@ -369,6 +383,18 @@ class _WordListScreenState extends State<WordListScreen> {
         builder: (context) => WordListScreen(
           head: head,
         ),
+      ),
+    );
+  }
+
+  /**
+   *
+   */
+  void _goTestScreen({BuildContext context}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TestScreen(),
       ),
     );
   }
