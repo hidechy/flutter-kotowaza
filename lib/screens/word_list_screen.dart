@@ -7,6 +7,8 @@ import 'package:toast/toast.dart';
 
 import 'test_screen.dart';
 
+import '../utilities/utility.dart';
+
 class WordListScreen extends StatefulWidget {
   final String head;
   WordListScreen({@required this.head});
@@ -16,6 +18,8 @@ class WordListScreen extends StatefulWidget {
 }
 
 class _WordListScreenState extends State<WordListScreen> {
+  Utility _utility = Utility();
+
   List<Map<dynamic, dynamic>> _headData = List();
   List<Map<dynamic, dynamic>> _wordData = List();
 
@@ -162,14 +166,20 @@ class _WordListScreenState extends State<WordListScreen> {
           ),
         ],
       ),
-      body: Row(
+      body: Stack(
+        fit: StackFit.expand,
         children: <Widget>[
-          Container(
-            width: 120,
-            child: _headList(),
-          ),
-          Expanded(
-            child: _wordList(),
+          _utility.getBackGround(),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 120,
+                child: _headList(),
+              ),
+              Expanded(
+                child: _wordList(),
+              ),
+            ],
           ),
         ],
       ),
