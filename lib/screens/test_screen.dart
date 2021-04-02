@@ -21,6 +21,11 @@ class _TestScreenState extends State<TestScreen> {
   var kotowazaExplanation = '';
   var kotowazaFlag = 0;
 
+  PageController controller = PageController();
+
+  // ページインデックス
+  int currentPage = 0;
+
   /**
    * 初期動作
    */
@@ -48,6 +53,18 @@ class _TestScreenState extends State<TestScreen> {
         _wordData.add(data['data'][i]);
       }
     }
+
+    /////////////////////////////////
+    // ページコントローラのページ遷移を監視しページ数を丸める
+    controller.addListener(() {
+      int next = controller.page.round();
+      if (currentPage != next) {
+        setState(() {
+          currentPage = next;
+        });
+      }
+    });
+    /////////////////////////////////
 
     setState(() {});
   }
@@ -88,9 +105,18 @@ class _TestScreenState extends State<TestScreen> {
         children: <Widget>[
           _utility.getBackGround(),
           PageView.builder(
-              controller: PageController(),
+              controller: controller,
               itemCount: _wordData.length,
               itemBuilder: (context, index) {
+                //--------------------------------------// リセット
+                bool active = (index == currentPage);
+                if (active == false) {
+                  kotowazaId = 0;
+                  kotowazaExplanation = '';
+                  kotowazaFlag = 0;
+                }
+                //--------------------------------------//
+
                 return Container(
                   padding: EdgeInsets.all(20),
                   child: _dispKotowazaDetail(index),
@@ -109,25 +135,15 @@ class _TestScreenState extends State<TestScreen> {
       children: <Widget>[
         _dispHeaderLine(index),
         Container(
-          alignment: Alignment.topRight,
-          child: (kotowazaExplanation == '')
-              ? Container(
-                  padding: EdgeInsets.all(5),
-                  child: RaisedButton(
-                    color: Colors.green[900].withOpacity(0.5),
-                    child: Text('呼出'),
-                    onPressed: () => _callData(id: _wordData[index]['id']),
-                  ),
-                )
-              : Container(
-                  padding: EdgeInsets.all(5),
-                  child: RaisedButton(
-                    color: Colors.green[900].withOpacity(0.5),
-                    child: Text('消去'),
-                    onPressed: () => _clearData(),
-                  ),
-                ),
-        ),
+            alignment: Alignment.topRight,
+            child: Container(
+              padding: EdgeInsets.all(5),
+              child: RaisedButton(
+                color: Colors.green[900].withOpacity(0.5),
+                child: Text('呼出'),
+                onPressed: () => _callData(id: _wordData[index]['id']),
+              ),
+            )),
         Expanded(
           child: Container(
             padding: EdgeInsets.only(top: 10, left: 20, right: 20),
@@ -181,16 +197,6 @@ class _TestScreenState extends State<TestScreen> {
     kotowazaId = kotowaza['id'];
     kotowazaExplanation = kotowaza['explanation'];
     kotowazaFlag = kotowaza['flag'];
-    setState(() {});
-  }
-
-  /**
-   *
-   */
-  void _clearData() {
-    kotowazaId = 0;
-    kotowazaExplanation = '';
-    kotowazaFlag = 0;
     setState(() {});
   }
 
